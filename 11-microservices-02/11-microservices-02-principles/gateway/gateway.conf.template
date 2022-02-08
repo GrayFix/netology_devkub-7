@@ -1,0 +1,55 @@
+server {
+    listen 8080 default_server;
+
+    location = /v1/register {
+      if ($request_method = POST ) {
+        proxy_pass http://security:3000;
+        rewrite ^/v1/register /v1/user break;
+      }
+    }
+
+# Используются и POST и GET запросы
+    location /v1/token {
+        proxy_pass http://security:3000;
+    }
+
+    location = /v1/user {
+      auth_request /v1/token/validation;
+      if ($request_method = GET ) {
+        proxy_pass http://security:3000;
+      }
+    }
+
+    location = /v1/upload {
+      auth_request /v1/token/validation;
+      client_body_buffer_size 10m;
+      if ($request_method = POST ) {
+        proxy_pass http://uploader:3000;
+      }
+    }
+
+    location /v1/user/ {
+      auth_request /v1/token/validation;
+      if ($request_method = GET ) {
+        proxy_pass http://storage:9000;
+        rewrite ^/v1/user/(.*)$ /${S3_BUCKET}/$1 break;
+      }
+    }
+
+    # Error responses
+    proxy_intercept_errors on;     # Do not send backend errors to client
+
+    error_page 400 = @400;
+    location @400 { return 400 '{"status":400,"message":"Bad request"}\n'; }
+    
+    error_page 401 = @401;
+    location @401 { return 401 '{"status":401,"message":"Unauthorized"}\n'; }
+    
+    error_page 403 = @403;
+    location @403 { return 403 '{"status":403,"message":"Forbidden"}\n'; }
+    
+    error_page 404 = @404;
+    location @404 { return 404 '{"status":404,"message":"Resource not found"}\n'; }
+
+    default_type application/json; # If no content-type, assume JSON
+}
