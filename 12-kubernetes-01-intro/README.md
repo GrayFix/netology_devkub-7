@@ -121,4 +121,15 @@
     BODY:
     -no body in request-
     ```
-
+    
+4. Роль ansible для установки, удаления и деплоя тестового приложения [minikube_ansible](minikube_ansible). 
+   Пояснения:
+   - В файле inventory прописан только localhost;
+   - Minikube ставиться как сервис systemd и переживет перезагрузку сервера;
+   - Параметр `--vm-driver` по документации minikube считается устаревшим, в запуске прописно через параметр `--driver`;
+   - `--driver=none` требует права root, поэтому запуск идет от root.
+   
+   Пример комманд:
+   - Создание minikube: `ansible-playbook -i inventory/prod/hosts.yml install-minikube.yml` ;
+   - Деплой HelloWorld: `ansible-playbook -i inventory/prod/hosts.yml deploy-helloworld.yml` ;
+   - Удаление minikube: `ansible-playbook -i inventory/prod/hosts.yml uninstall-minikube.yml` .
