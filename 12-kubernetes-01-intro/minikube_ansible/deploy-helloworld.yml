@@ -1,0 +1,11 @@
+---
+- name: Deploy Hello world
+  hosts: all
+  become_method: su
+
+  tasks:
+    - name: "Deploy Hello world"
+      command: /usr/local/bin/kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+
+    - name: "Create service"
+      command: /usr/local/bin/kubectl expose deployment hello-node --type=LoadBalancer --port=8080

@@ -1,0 +1,33 @@
+---
+- name: Uninstall Minikube
+  hosts: all
+  become_method: su
+
+  tasks:
+    - name: "Stop service"
+      systemd:
+        name: minikube
+        state: stopped
+        enabled: no
+
+    - name: "Destroy cluster"
+      command: /usr/local/bin/minikube delete
+
+    - name: "Remove file minikube service"
+      file:
+        path: /etc/systemd/system/minikube.service
+        state: absent
+
+    - name: "Reload systemd"
+      systemd:
+        daemon_reload: yes
+
+    - name: "Remove file minikube"
+      file:
+        path: /usr/local/bin/minikube
+        state: absent
+
+    - name: "Remove file kubectl"
+      file:
+        path: /usr/local/bin/kubectl
+        state: absent

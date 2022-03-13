@@ -1,0 +1,14 @@
+[Unit]
+Description=Runs minikube on startup
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/minikube start --driver=none
+ExecStop=/usr/local/bin/minikube stop
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

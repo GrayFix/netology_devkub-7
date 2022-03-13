@@ -1,0 +1,37 @@
+---
+- name: Install Minikube
+  hosts: all
+  become_method: su
+
+  tasks:
+    - name: "Get kubectl stable version"
+      set_fact:
+        kube_ver: "{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}"
+
+    - name: "Download kubectl"
+      get_url:
+        url: "https://dl.k8s.io/release/{{ kube_ver }}/bin/linux/amd64/kubectl"
+        dest: "/usr/local/bin/kubectl"
+        mode: 0755
+
+    - name: "Download minikube"
+      get_url:
+        url: "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+        dest: "/usr/local/bin/minikube"
+        mode: 0755
+
+    - name: "Copy systemd file for minikube"
+      copy:
+        src: minikube.service
+        dest: /etc/systemd/system/minikube.service
+        mode: 0644
+
+    - name: "Enable and start service"
+      systemd:
+        daemon_reload: yes
+        name: minikube
+        state: started
+        enabled: yes
+
+    - name: "Enable ingress addon"
+      command: /usr/local/bin/minikube addons enable ingress
