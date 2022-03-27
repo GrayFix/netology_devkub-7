@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp2
+  name: myapp2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp2
+  template:
+    metadata:
+      labels:
+        app: myapp2
+    spec:
+      containers:
+      - image: polarsquad/hello-world-app:master
+        name: hello-world
+        ports:
+        - containerPort: 3000
