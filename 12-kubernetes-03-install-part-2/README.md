@@ -1,10 +1,10 @@
 # 12.4 Развертывание кластера на собственных серверах, лекция 2
 
-- Подготовленный инвентарь можно посмотреть по [ссылке](\inventory\netology) 
+- Подготовленный инвентарь можно посмотреть по [ссылке](inventory\netology) 
 - Инвентарь рассчитан на запуск с ноды расположенной в сети с доступность всех участников кластера по внутренним адресам. Например, на control-plane ноде;
-- Для управления кластером извне, в файле [k8s-cluster.yml](\inventory\netology\group_vars\k8s_cluster\k8s-cluster.yml) параметром `supplementary_addresses_in_ssl_keys: [51.250.96.73]` добавляется внешний IP адрес control-plane ноды в сертификат;
+- Для управления кластером извне, в файле [k8s-cluster.yml](inventory\netology\group_vars\k8s_cluster\k8s-cluster.yml) параметром `supplementary_addresses_in_ssl_keys: [51.250.96.73]` добавляется внешний IP адрес control-plane ноды в сертификат;
 - Не знаю как раньше, но сейчас CRI использует containerd по умолчанию. Дополнительно ничего не настраивал;
-- В файле [all.yml](\inventory\netology\group_vars\all\all.yml) задан свой пользователь ansible ля подключения к хостам участникам кластера `ansible_user: grayfix`.
+- В файле [all.yml](inventory\netology\group_vars\all\all.yml) задан свой пользователь ansible ля подключения к хостам участникам кластера `ansible_user: grayfix`.
 
 
 Вывод списка нод после развертывания:
