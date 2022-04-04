@@ -1,0 +1,12 @@
+kind: "Endpoints"
+apiVersion: "v1"
+metadata:
+  name: "external-api-v2"
+subsets: 
+  - addresses:
+    - ip: "213.180.193.58"
+    ports:
+      - port: 80
+        name: http
+      - port: 443
+        name: https

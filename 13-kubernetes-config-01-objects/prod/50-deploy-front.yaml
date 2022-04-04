@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-01-prod-front
+  labels:
+    app: prod-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prod-front
+  template:
+    metadata:
+      labels:
+        app: prod-front
+    spec:
+      containers:
+      - name: frontend
+        image: praqma/network-multitool
+        ports:
+        - containerPort: 8000
+          name: frontend
+        env:
+          - name: HTTP_PORT
+            value: "8000"
+          - name: HTTPS_PORT
+            value: "8443"
+          - name: BACKEND_HOST
+            value: "kubernetes-01-prod-back"

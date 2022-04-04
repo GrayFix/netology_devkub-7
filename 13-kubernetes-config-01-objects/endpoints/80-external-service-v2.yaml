@@ -1,0 +1,13 @@
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-api-v2"
+spec:
+  selector: {}
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+  - name: https
+    port: 443
+    protocol: TCP

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-01-stage-db
+spec:
+  type: ClusterIP
+  selector:
+    app: stage-db
+  ports:
+  - name: postgresql
+    port: 5432
+    protocol: TCP
