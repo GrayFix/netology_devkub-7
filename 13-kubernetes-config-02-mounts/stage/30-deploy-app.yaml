@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-01-stage-app
+  labels:
+    app: stage-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stage-app
+  template:
+    metadata:
+      labels:
+        app: stage-app
+    spec:
+      containers:
+      - name: frontend
+        image: praqma/network-multitool
+        ports:
+        - containerPort: 8000
+          name: frontend
+        env:
+          - name: HTTP_PORT
+            value: "8000"
+          - name: HTTPS_PORT
+            value: "8443"
+        volumeMounts:
+          - mountPath: "/storage"
+            name: stage-storage
+      - name: backend
+        image: praqma/network-multitool
+        ports:
+        - containerPort: 9000
+          name: backend
+        env:
+          - name: HTTP_PORT
+            value: "9000"
+          - name: HTTPS_PORT
+            value: "9443"
+          - name: DB_HOST
+            value: "kubernetes-01-stage-db"
+        volumeMounts:
+          - mountPath: "/storage"
+            name: stage-storage
+      volumes:
+        - name: stage-storage
+          emptyDir: {}

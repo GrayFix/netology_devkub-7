@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-01-stage-app
+spec:
+  type: ClusterIP
+  selector:
+    app: stage-app
+  ports:
+  - name: frontend
+    port: 8000
+    protocol: TCP
+  - name: backend
+    port: 9000
+    protocol: TCP

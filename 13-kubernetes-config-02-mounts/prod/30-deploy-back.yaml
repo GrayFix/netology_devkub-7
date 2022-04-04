@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-01-prod-back
+  labels:
+    app: prod-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prod-back
+  template:
+    metadata:
+      labels:
+        app: prod-back
+    spec:
+      containers:
+      - name: backend
+        image: praqma/network-multitool
+        ports:
+        - containerPort: 9000
+          name: backend
+        env:
+          - name: HTTP_PORT
+            value: "9000"
+          - name: HTTPS_PORT
+            value: "9443"
+          - name: DB_HOST
+            value: "kubernetes-01-prod-db"
+        volumeMounts:
+          - mountPath: "/storage"
+            name: prod-storage
+      volumes:
+      - name: prod-storage
+        persistentVolumeClaim:
+          claimName: prod-storage

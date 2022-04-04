@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kubernetes-01-stage-db
+spec:
+  selector:
+    matchLabels:
+      app: stage-db
+  serviceName: kubernetes-01-stage-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stage-db
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: postgresql
+        image: praqma/network-multitool
+        ports:
+        - containerPort: 5432
+          name: postgresql
+        env:
+          - name: HTTP_PORT
+            value: "5432"
+          - name: HTTPS_PORT
+            value: "8443"
