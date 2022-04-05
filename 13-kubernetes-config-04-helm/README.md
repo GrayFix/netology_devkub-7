@@ -167,43 +167,43 @@
 
     ```
   - Пример развертывания на prod окружении `jsonnet -y main.jsonnet --ext-str env=prod | kubectl apply -f -`
-``` sh
-# Запуск для prod
-root@cpl:/data/jsonnet# jsonnet -y main.jsonnet --ext-str env=prod | kubectl apply -f -
-namespace/netology created
-statefulset.apps/kubernetes-04-db created
-service/kubernetes-04-db created
-deployment.apps/kubernetes-04-back created
-service/kubernetes-04-back created
-deployment.apps/kubernetes-04-front created
-service/kubernetes-04-front created
-service/external-api-v1 created
+    ``` sh
+    # Запуск для prod
+    root@cpl:/data/jsonnet# jsonnet -y main.jsonnet --ext-str env=prod | kubectl apply -f -
+    namespace/netology created
+    statefulset.apps/kubernetes-04-db created
+    service/kubernetes-04-db created
+    deployment.apps/kubernetes-04-back created
+    service/kubernetes-04-back created
+    deployment.apps/kubernetes-04-front created
+    service/kubernetes-04-front created
+    service/external-api-v1 created
 
-# Проверка
-root@cpl:/data/jsonnet# kubectl -n netology get all
-NAME                                       READY   STATUS              RESTARTS   AGE
-pod/kubernetes-04-back-68db8cc6d8-92bf7    0/1     ContainerCreating   0          3s
-pod/kubernetes-04-back-68db8cc6d8-wwj88    0/1     ContainerCreating   0          3s
-pod/kubernetes-04-db-0                     0/1     ContainerCreating   0          4s
-pod/kubernetes-04-front-7db5dc44b9-5xm7x   0/1     ContainerCreating   0          3s
-pod/kubernetes-04-front-7db5dc44b9-l4srn   0/1     ContainerCreating   0          3s
-pod/kubernetes-04-front-7db5dc44b9-xh6m2   0/1     ContainerCreating   0          3s
+    # Проверка
+    root@cpl:/data/jsonnet# kubectl -n netology get all
+    NAME                                       READY   STATUS              RESTARTS   AGE
+    pod/kubernetes-04-back-68db8cc6d8-92bf7    0/1     ContainerCreating   0          3s
+    pod/kubernetes-04-back-68db8cc6d8-wwj88    0/1     ContainerCreating   0          3s
+    pod/kubernetes-04-db-0                     0/1     ContainerCreating   0          4s
+    pod/kubernetes-04-front-7db5dc44b9-5xm7x   0/1     ContainerCreating   0          3s
+    pod/kubernetes-04-front-7db5dc44b9-l4srn   0/1     ContainerCreating   0          3s
+    pod/kubernetes-04-front-7db5dc44b9-xh6m2   0/1     ContainerCreating   0          3s
 
-NAME                          TYPE           CLUSTER-IP     EXTERNAL-IP              PORT(S)          AGE
-service/external-api-v1       ExternalName   <none>         geocode-maps.yandex.ru   80/TCP,443/TCP   3s
-service/kubernetes-04-back    ClusterIP      10.233.17.35   <none>                   9000/TCP         3s
-service/kubernetes-04-db      ClusterIP      10.233.7.32    <none>                   5432/TCP         4s
-service/kubernetes-04-front   ClusterIP      10.233.42.40   <none>                   8000/TCP         3s
+    NAME                          TYPE           CLUSTER-IP     EXTERNAL-IP              PORT(S)          AGE
+    service/external-api-v1       ExternalName   <none>         geocode-maps.yandex.ru   80/TCP,443/TCP   3s
+    service/kubernetes-04-back    ClusterIP      10.233.17.35   <none>                   9000/TCP         3s
+    service/kubernetes-04-db      ClusterIP      10.233.7.32    <none>                   5432/TCP         4s
+    service/kubernetes-04-front   ClusterIP      10.233.42.40   <none>                   8000/TCP         3s
 
-NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/kubernetes-04-back    0/2     2            0           4s
-deployment.apps/kubernetes-04-front   0/3     3            0           3s
+    NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+    deployment.apps/kubernetes-04-back    0/2     2            0           4s
+    deployment.apps/kubernetes-04-front   0/3     3            0           3s
 
-NAME                                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/kubernetes-04-back-68db8cc6d8    2         2         0       3s
-replicaset.apps/kubernetes-04-front-7db5dc44b9   3         3         0       3s
+    NAME                                             DESIRED   CURRENT   READY   AGE
+    replicaset.apps/kubernetes-04-back-68db8cc6d8    2         2         0       3s
+    replicaset.apps/kubernetes-04-front-7db5dc44b9   3         3         0       3s
 
-NAME                                READY   AGE
-statefulset.apps/kubernetes-04-db   0/1     4s
-
-```
+    NAME                                READY   AGE
+    statefulset.apps/kubernetes-04-db   0/1     4s
+    ```
+  - Очень сложная в поддержке и написании штука, использовать точно не буду в работе. Лучше Helm, входящие параметры всегда можно переопределить и подсунуть при деплое не трогая чарты. 
