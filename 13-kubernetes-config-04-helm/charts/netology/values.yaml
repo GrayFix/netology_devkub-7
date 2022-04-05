@@ -1,0 +1,25 @@
+
+namespace: netology
+replicasSTS: 1
+replicasFront: 1
+replicasBack: 1
+
+replicasProdFront: 2
+replicasProdBack: 3
+
+image:
+  repository: praqma/network-multitool
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+resources:
+   limits:
+     cpu: 200m
+     memory: 256Mi
+   requests:
+     cpu: 100m
+     memory: 128Mi
+
+appPortDB: 5432
+appPortFront: 8000
+appPortBack: 9000

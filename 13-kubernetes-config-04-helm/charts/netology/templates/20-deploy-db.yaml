@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}-db
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: db
+  serviceName: {{ .Chart.Name }}-db
+  replicas: {{ .Values.replicasSTS }}
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: postgresql
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        ports:
+        - containerPort: 5432
+          name: postgresql
+        env:
+          - name: HTTP_PORT
+            value: "{{ .Values.appPortDB }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-db
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: db
+  ports:
+  - name: postgresql
+    port: 5432
+    protocol: TCP
