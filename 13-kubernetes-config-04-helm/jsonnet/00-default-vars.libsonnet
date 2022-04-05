@@ -1,8 +1,7 @@
 {
   name: "kubernetes-04",
   namespace: "netology",
-  cpu: 100,
-  memory: 256,
+
   replicasDB: 1,
   imagesDB: "praqma/network-multitool",
   appPortDB: 5432,

@@ -1,0 +1,20 @@
+apiVersion: qbec.io/v1alpha1
+kind: App
+metadata:
+  name: kubernetes-05
+spec:
+  environments:
+    default:
+      defaultNamespace: netology
+      server: https://127.0.0.1:6443
+    stage:
+      defaultNamespace: netology-stage
+      server: https://127.0.0.1:6443
+    prod:
+      defaultNamespace: netology-prod
+      server: https://127.0.0.1:6443
+      includes:
+        - 50-external-service-v1
+  vars: {}
+  excludes:
+    - 50-external-service-v1
